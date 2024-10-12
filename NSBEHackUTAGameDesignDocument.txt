@@ -1,0 +1,22 @@
+Title: Need for Speed (Hacker Edition)
+Genre: Platformer
+UI:
+-	How you high went: 
+-	Meter?
+-	Indicator representing each player?
+-	Just the player playing?
+-	Height being “Just a number” 
+-	Health:
+-	Health Bar
+Core Elements of Gameplay:
+	Objective:
+-	Constantly climbing to escape lava
+Levels: 
+-	Endless Level
+-	Movement:
+-	Constant Speed 
+-	Double Jump
+-	Power Ups (speed boost, triple jump, etc)
+-	Obstacles: 
+-	Spikes
+-	Fireballs
