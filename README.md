@@ -1,6 +1,7 @@
 # NSBE-HACKUTA6
 ### Steps to start working
 - download python,pygame,and streamlit
+- `python -m venv .venv | to set up venv`
 ```py
 # Windows command prompt
 .venv\Scripts\activate.bat
