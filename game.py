@@ -47,14 +47,13 @@ def game_loop():
         clock.tick(FPS)
         SCREEN.fill(BLACK)  # Use SCREEN instead of screen
 
+        if lives <= 0:
+            game_over = True
         if not game_over:
             # Event handling
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                    player.jump()
-
             # Update player and platforms
             player_group.update()
             platforms.update(camera_movement)
@@ -64,7 +63,8 @@ def game_loop():
 
             # Check if the player falls into the lava
             if player.rect.bottom >= SCREEN_HEIGHT - 20:
-                game_over = True
+                lives -= 1
+                player.rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT - 1000)
 
             # Check for collision between player and platforms
             if pygame.sprite.spritecollide(player, platforms, False):
@@ -92,23 +92,23 @@ def game_loop():
             platforms.draw(SCREEN)
 
             # Display score, high score, lives
-            score_text = font.render(f"Score: {score}", True, WHITE)
+            score_text = font.render(f"Score: {score}", True, YELLOW)
             SCREEN.blit(score_text, (10, 10))  # Use SCREEN
             
             high_score = max(high_score, score)
-            high_score_text = font.render(f"High Score: {high_score}", True, WHITE)
+            high_score_text = font.render(f"High Score: {high_score}", True, CORAL)
             SCREEN.blit(high_score_text, (10, 40))  # Use SCREEN
 
-            lives_text = font.render(f"Lives: {lives}", True, WHITE)
+            lives_text = font.render(f"Lives: {lives}", True, GREEN)
             SCREEN.blit(lives_text, (10, 70))  # Use SCREEN
 
 
         else:
             # Game Over screen with Retry and Exit options
             game_over_text = font.render("Game Over", True, RED)
-            final_score_text = font.render(f"Final Score: {score}", True, WHITE)
-            high_score_text = font.render(f"High Score: {high_score}", True, WHITE)
-            retry_text = font.render("Press SPACE to Retry", True, WHITE)
+            final_score_text = font.render(f"Final Score: {score}", True, ORANGE)
+            high_score_text = font.render(f"High Score: {high_score}", True, CORAL)
+            retry_text = font.render("Press SPACE to Retry", True, YELLOW)
             exit_text = font.render("Press ESC to Exit", True, WHITE)  # Exit option
 
             SCREEN.blit(game_over_text, (SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2 - 50))
@@ -125,6 +125,7 @@ def game_loop():
                     if event.key == pygame.K_SPACE:
                         # Restart game
                         score = 0
+                        lives = 3
                         player.rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT - 150)
                         player.velocity_y = 0
                         platform_count = 10  # Reset platform count
@@ -217,6 +218,10 @@ ninja_image = pygame.image.load("ninja.gif")  # Use the uploaded ninja image
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
+ORANGE = (255, 69, 0)
+CORAL = (255, 127, 80)
+YELLOW = (255, 240, 0)
+GREEN = (50, 205, 50)
 
 # Create the screen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -237,6 +242,7 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         self.velocity_y += GRAVITY
         self.rect.y += self.velocity_y
+        jump_counter = 0 
 
         # Horizontal movement
         keys = pygame.key.get_pressed()
@@ -245,6 +251,14 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_RIGHT]:
             self.rect.x += 5
 
+         # Jumping and Double Jumping 
+            if jump_counter >= 1:
+                self.velocity_y = -10 
+            if jump_counter >= 2:
+                self.velocity_y = -20
+            
+
+
         # Wrap around the screen horizontally
         if self.rect.left > SCREEN_WIDTH:
             self.rect.right = 0
@@ -252,7 +266,7 @@ class Player(pygame.sprite.Sprite):
             self.rect.left = SCREEN_WIDTH
 
     def jump(self):
-        self.velocity_y = PLAYER_JUMP
+        self.velocity_y = -10 
 
 # Class for the platforms
 class Platform(pygame.sprite.Sprite):
