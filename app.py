@@ -17,6 +17,10 @@ def set_background(image_file):
         background-size: cover;
         background-position: center;
     }}
+     .title-shadow {{
+        color: white;  /* Text color */
+        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7); /* Shadow settings */
+    }}
     </style>
     """
     st.markdown(css_code, unsafe_allow_html=True)
@@ -38,7 +42,7 @@ eras = {
 }
 
 # Selectbox to choose PS2 era
-st.title("PlayStation 2: A Journey Through the Eras")
+st.markdown("<h1 class='title-shadow'>PlayStation 2: A Journey Through the Eras</h1>", unsafe_allow_html=True)
 selected_era = st.selectbox(
     "Select a PS2 Era",
     list(eras.keys())
