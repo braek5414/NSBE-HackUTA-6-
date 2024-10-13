@@ -14,9 +14,8 @@ player = Player(x=640, y=360, size=50, speed=5)  # Initialize the player at a sa
 
 # Create platforms
 platforms = [
-    Platform(x=300, y=600, width=200, height=20),
-    Platform(x=600, y=450, width=200, height=20),
-    Platform(x=100, y=300, width=200, height=20)
+    Platform(x=300, y=600, width=2000, height=20),
+    
 ]
 
 # Infinite scroll variables

@@ -8,7 +8,7 @@ class Player:
         self.color = (0, 0, 255)  # Blue color
         self.velocity_y = 0  # Vertical velocity
         self.gravity = 0.5
-        self.jump_power = 10
+        self.jump_power = 15
         self.on_ground = True  # Initially, the player is on the ground
 
     def move(self, keys, platforms):
@@ -16,12 +16,16 @@ class Player:
         if keys[pygame.K_LEFT]:
             self.rect.x -= self.speed  # Move left
         if keys[pygame.K_RIGHT]:
-            self.rect.x += self.speed  # Move right
-
+            self.rect.x += self.speed # Move right
         # Jumping
-        if keys[pygame.K_SPACE] and self.on_ground:  # Space for jumping
-            self.velocity_y = -self.jump_power  # Set upward velocity
-            self.on_ground = False  # Player is now in the air
+        if keys[pygame.K_SPACE]:
+                if self.on_ground:  # First jump
+                    self.velocity_y = -self.jump_power  # Set upward velocity
+                    self.on_ground = False
+                    self.jump_count = 1  # Track the first jump
+                elif self.jump_count < 2:  # Double jump
+                    self.velocity_y = -self.jump_power  # Set upward velocity
+                    self.jump_count += 1  # Increment jump count
 
         # Apply gravity
         self.velocity_y += self.gravity
