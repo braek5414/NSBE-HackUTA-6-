@@ -1,5 +1,4 @@
-# player.py
-import pygame
+
 
 class Player:
     def __init__(self, x, y, size, speed):
@@ -49,4 +48,4 @@ class Player:
     def reset(self):
         self.rect.topleft = (640, 360)  # Reset position
         self.velocity_y = 0
-        self.on_ground = True  # Reset ground state
+
