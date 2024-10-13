@@ -35,22 +35,22 @@ def set_background(image_file):
 # Dictionary to store the timeline info, backgrounds, and video links
 eras = {
     "2000-2002": {
-        "description": "The Early 2000s, a time where the internet was still in its developing stages. The PS2 revolutionized this era with iconic games like 'Gran Turismo 3' and 'Metal Gear Solid 2.'",
+        "description": """In the early 2000s, the PS2 dominated the gaming world, revolutionizing the industry with groundbreaking graphics and immersive gameplay. Titles like Gran Turismo 3 and Metal Gear Solid 2 set new standards, with lifelike racing and cinematic storytelling that captivated players.'""",
         "background": "ps2_early_era.jpg",
         "video": "https://www.youtube.com/watch?v=TtW4NX5nX_I", 
-        "bottom_description": "These games were considered ahead of its time and put the PS2 ahead of its competition"
+        "bottom_description": """The PS2 wasn’t just a gaming console; its DVD playback turned it into a home entertainment hub, sparking a cultural movement. Gamers lined up for new releases, and the excitement of this era turned the PS2 into more than a machine—it became a lifestyle."""
     },
     "2003-2005": {
-        "description": "The mid-life era where blockbuster franchises like 'GTA: San Andreas' and 'God of War' reigned supreme.",
-        "background": "ps2_mid_era.jpg",
+        "description": """From 2003 to 2005, the PlayStation 2 reigned supreme, driving a gaming revolution. GTA: San Andreas let players roam vast, dynamic worlds, while God of War delivered epic, mythological battles with visceral intensity. """,
+        "background": "ps2_late_era.jpg",
         "video": "https://www.youtube.com/watch?v=2HidvfTrY6Q", 
-        "bottom_description": "The PS2 revolutionized this era with increased graphics, and "
+        "bottom_description": """These titles, along with hits like Metal Gear Solid 3 and Devil May Cry 3, made the PS2 a cultural phenomenon. Gamers everywhere were hooked, swapping cheat codes, debating strategies, and reveling in the console’s cutting-edge experiences. The PS2 wasn’t just a gaming device—it was the gateway to an unforgettable era of creativity and excitement."""
     },
     "2006-2013": {
-        "description": "The late era as the PS3 started to gain traction, with continued support for games like 'Persona 4' and 'Shadow of the Colossus.'",
-        "background": "ps2_late_era.jpg",
-        "video": "https://www.youtube.com/watch?v=W5wM02GSjY8", 
-        "bottom_description": "rah"
+        "description": """Between 2006 and 2013, the PlayStation 2 was at the height of its popularity, defining an era of gaming that captured global attention. Iconic games like FIFA Street turned living rooms into virtual stadiums, with players pulling off dazzling tricks and embracing the raw energy of street soccer. '""",
+        "background": "ps2_mid_era.jpg",
+        "video": "https://youtu.be/9Eu2eeCKnPw?si=jswoW9ScRRr973eI", 
+        "bottom_description": """The PS2's diverse game library—from God of War to Pro Evolution Soccer—made it the centerpiece of competitive, social gaming. Multiplayer sessions with friends, heated cafe tournaments, and vibrant online communities fueled the hype, as the PS2 became more than a console—it was the pulse of a generation’s gaming culture."""
     }
 }
 
