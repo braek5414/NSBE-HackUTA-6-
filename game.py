@@ -20,7 +20,7 @@ SCREEN_HEIGHT = 720
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Endless Platformer")
 
-# Game loop function
+# Updated Game loop function
 def game_loop():
     running = True
     clock = pygame.time.Clock()
@@ -28,15 +28,20 @@ def game_loop():
     high_score = 0
     lives = 3
     game_over = False
-    platform_count = INITIAL_PLATFORM_COUNT  # Start with more platforms
+    platform_count = 10  # Increased initial platform count to 10
     camera_movement = 0  # For upward camera movement
-    lava_y = SCREEN_HEIGHT  # Starting position of the lava
+    lava_y = SCREEN_HEIGHT  # Set lava to be stationary at the bottom
 
     player = Player()
     player_group = pygame.sprite.Group()
     player_group.add(player)
 
+    # Create platforms with an additional starting platform
     platforms = create_platforms(platform_count)
+
+    # Add a starting platform directly below the player's initial position
+    starting_platform = Platform(SCREEN_WIDTH // 2 - PLATFORM_WIDTH // 2, player.rect.bottom + 20)
+    platforms.add(starting_platform)
 
     while running:
         clock.tick(FPS)
@@ -54,16 +59,11 @@ def game_loop():
             player_group.update()
             platforms.update(camera_movement)
 
-            # lava
-            pygame.draw.rect(SCREEN, RED, (0, lava_y, SCREEN_WIDTH, SCREEN_HEIGHT))  # Use SCREEN
-            
-            # Check if the player falls into the lava
-            if player.rect.top > lava_y:
-                lives -= 1
-                player.rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT - 1000)
+            # Draw lava at the bottom without moving it
+            pygame.draw.rect(SCREEN, RED, (0, SCREEN_HEIGHT - 20, SCREEN_WIDTH, 20))  # Lava remains at the bottom
 
-            # Game Over
-            if lives <= 0:
+            # Check if the player falls into the lava
+            if player.rect.bottom >= SCREEN_HEIGHT - 20:
                 game_over = True
 
             # Check for collision between player and platforms
@@ -92,52 +92,61 @@ def game_loop():
             platforms.draw(SCREEN)
 
             # Display score, high score, lives
-            score_text = font.render(f"Score: {score}", True, YELLOW)
+            score_text = font.render(f"Score: {score}", True, WHITE)
             SCREEN.blit(score_text, (10, 10))  # Use SCREEN
             
             high_score = max(high_score, score)
-            high_score_text = font.render(f"High Score: {high_score}", True, CORAL)
+            high_score_text = font.render(f"High Score: {high_score}", True, WHITE)
             SCREEN.blit(high_score_text, (10, 40))  # Use SCREEN
 
-            lives_text = font.render(f"Lives: {lives}", True, ORANGE)
+            lives_text = font.render(f"Lives: {lives}", True, WHITE)
             SCREEN.blit(lives_text, (10, 70))  # Use SCREEN
 
 
-        elif game_over := True :
-            # Game Over screen with Retry option
+        else:
+            # Game Over screen with Retry and Exit options
             game_over_text = font.render("Game Over", True, RED)
             final_score_text = font.render(f"Final Score: {score}", True, WHITE)
             high_score_text = font.render(f"High Score: {high_score}", True, WHITE)
             retry_text = font.render("Press SPACE to Retry", True, WHITE)
-            back_menu_text = font.render("Press B to go back to the main menu", True, WHITE)
+            exit_text = font.render("Press ESC to Exit", True, WHITE)  # Exit option
 
             SCREEN.blit(game_over_text, (SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2 - 50))
-            SCREEN.blit(final_score_text, (SCREEN_WIDTH // 2 - 130, SCREEN_HEIGHT // 2))
-            SCREEN.blit(high_score_text, (SCREEN_WIDTH // 2 - 130, SCREEN_HEIGHT // 2 + 40))
+            SCREEN.blit(final_score_text, (SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2))
+            SCREEN.blit(high_score_text, (SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2 + 40))
             SCREEN.blit(retry_text, (SCREEN_WIDTH // 2 - 130, SCREEN_HEIGHT // 2 + 80))
-            SCREEN.blit(back_menu_text, (SCREEN_WIDTH // 2 - 220, SCREEN_HEIGHT // 2 + 120))
+            SCREEN.blit(exit_text, (SCREEN_WIDTH // 2 - 130, SCREEN_HEIGHT // 2 + 120))  # Display Exit option
 
-            # Event handling for retrying after game over
+            # Event handling for retrying or exiting after game over
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                    # Restart game
-                    lives = 3
-                    score = 0
-                    player.rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT - 150)
-                    player.velocity_y = 0
-                    platform_count = INITIAL_PLATFORM_COUNT
-                    platforms.empty()
-                    platforms = create_platforms(platform_count)
-                    lava_y = SCREEN_HEIGHT  # Reset lava
-                    camera_movement = 0  # Reset camera movement
-                    game_over = False
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        # Restart game
+                        score = 0
+                        player.rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT - 150)
+                        player.velocity_y = 0
+                        platform_count = 10  # Reset platform count
+                        platforms.empty()
+                        platforms = create_platforms(platform_count)
+
+                        # Add starting platform again
+                        starting_platform = Platform(SCREEN_WIDTH // 2 - PLATFORM_WIDTH // 2, player.rect.bottom + 20)
+                        platforms.add(starting_platform)
+
+                        lava_y = SCREEN_HEIGHT  # Keep lava at the bottom
+                        camera_movement = 0  # Reset camera movement
+                        game_over = False
+                    if event.key == pygame.K_ESCAPE:  # Exit game if ESC is pressed
+                        running = False
+
 
         # Update the display
         pygame.display.flip()
 
     pygame.quit()
+
 
 def play():
     while True:
@@ -208,9 +217,6 @@ ninja_image = pygame.image.load("ninja.gif")  # Use the uploaded ninja image
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
-YELLOW = (255, 223, 0)
-CORAL = (255, 126, 80)
-ORANGE = (255, 165, 0)
 
 # Create the screen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -313,6 +319,3 @@ def main_menu():
         pygame.display.update()
 
 main_menu()
-
-
-
