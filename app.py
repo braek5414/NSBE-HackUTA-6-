@@ -21,6 +21,11 @@ def set_background(image_file):
         color: white;  /* Text color */
         text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7); /* Shadow settings */
     }}
+     .description {{
+        color: black; /* Change text color for better contrast */
+        background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white background */
+        padding: 10px; /* Padding around the text */
+        border-radius: 5px; /* Rounded corners for the background */
     </style>
     """
     st.markdown(css_code, unsafe_allow_html=True)
@@ -33,7 +38,7 @@ eras = {
     },
     "2003-2005": {
         "description": "The mid-life era where blockbuster franchises like 'GTA: San Andreas' and 'God of War' reigned supreme.",
-        "background": "ps2_mid_era.webp"
+        "background": "ps2_mid_era.jpg"
     },
     "2006-2013": {
         "description": "The late era as the PS3 started to gain traction, with continued support for games like 'Persona 4' and 'Shadow of the Colossus.'",
