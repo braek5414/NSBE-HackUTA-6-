@@ -92,29 +92,30 @@ def game_loop():
             platforms.draw(SCREEN)
 
             # Display score, high score, lives
-            score_text = font.render(f"Score: {score}", True, WHITE)
+            score_text = font.render(f"Score: {score}", True, YELLOW)
             SCREEN.blit(score_text, (10, 10))  # Use SCREEN
             
             high_score = max(high_score, score)
-            high_score_text = font.render(f"High Score: {high_score}", True, WHITE)
+            high_score_text = font.render(f"High Score: {high_score}", True, CORAL)
             SCREEN.blit(high_score_text, (10, 40))  # Use SCREEN
 
-            lives_text = font.render(f"Lives: {lives}", True, WHITE)
+            lives_text = font.render(f"Lives: {lives}", True, ORANGE)
             SCREEN.blit(lives_text, (10, 70))  # Use SCREEN
 
 
-        else:
+        elif game_over := True :
             # Game Over screen with Retry option
             game_over_text = font.render("Game Over", True, RED)
             final_score_text = font.render(f"Final Score: {score}", True, WHITE)
             high_score_text = font.render(f"High Score: {high_score}", True, WHITE)
             retry_text = font.render("Press SPACE to Retry", True, WHITE)
-            BackMenu_text = front.render("Press B to go back to the main menu", True, WHITE)
+            back_menu_text = font.render("Press B to go back to the main menu", True, WHITE)
 
             SCREEN.blit(game_over_text, (SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2 - 50))
-            SCREEN.blit(final_score_text, (SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2))
-            SCREEN.blit(high_score_text, (SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2 + 40))
+            SCREEN.blit(final_score_text, (SCREEN_WIDTH // 2 - 130, SCREEN_HEIGHT // 2))
+            SCREEN.blit(high_score_text, (SCREEN_WIDTH // 2 - 130, SCREEN_HEIGHT // 2 + 40))
             SCREEN.blit(retry_text, (SCREEN_WIDTH // 2 - 130, SCREEN_HEIGHT // 2 + 80))
+            SCREEN.blit(back_menu_text, (SCREEN_WIDTH // 2 - 220, SCREEN_HEIGHT // 2 + 120))
 
             # Event handling for retrying after game over
             for event in pygame.event.get():
@@ -122,6 +123,7 @@ def game_loop():
                     running = False
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     # Restart game
+                    lives = 3
                     score = 0
                     player.rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT - 150)
                     player.velocity_y = 0
@@ -206,6 +208,9 @@ ninja_image = pygame.image.load("ninja.gif")  # Use the uploaded ninja image
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
+YELLOW = (255, 223, 0)
+CORAL = (255, 126, 80)
+ORANGE = (255, 165, 0)
 
 # Create the screen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
