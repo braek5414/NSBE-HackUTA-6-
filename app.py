@@ -50,7 +50,7 @@ eras = {
         "description": "The late era as the PS3 started to gain traction, with continued support for games like 'Persona 4' and 'Shadow of the Colossus.'",
         "background": "ps2_late_era.jpg",
         "video": "https://www.youtube.com/watch?v=W5wM02GSjY8", 
-        "bottom_description": ""
+        "bottom_description": "rah"
     }
 }
 
