@@ -60,9 +60,10 @@ def game_loop():
             # Check if the player falls into the lava
             if player.rect.top > lava_y:
                 lives -= 1
+                player.rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT - 1000)
 
             # Game Over
-            if lives < 0:
+            if lives <= 0:
                 game_over = True
 
             # Check for collision between player and platforms
@@ -99,7 +100,7 @@ def game_loop():
             SCREEN.blit(high_score_text, (10, 40))  # Use SCREEN
 
             lives_text = font.render(f"Lives: {lives}", True, WHITE)
-            SCREEN.blit(lives_text, (10, 50))  # Use SCREEN
+            SCREEN.blit(lives_text, (10, 70))  # Use SCREEN
 
 
         else:
@@ -108,7 +109,7 @@ def game_loop():
             final_score_text = font.render(f"Final Score: {score}", True, WHITE)
             high_score_text = font.render(f"High Score: {high_score}", True, WHITE)
             retry_text = font.render("Press SPACE to Retry", True, WHITE)
-            BackMenu = front.render("Press B to go back to the main menu", True, WHITE)
+            BackMenu_text = front.render("Press B to go back to the main menu", True, WHITE)
 
             SCREEN.blit(game_over_text, (SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2 - 50))
             SCREEN.blit(final_score_text, (SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2))
@@ -208,7 +209,7 @@ RED = (255, 0, 0)
 
 # Create the screen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Endless Platformer")
+pygame.display.set_caption("Lava Ninja")
 
 # Font for displaying score and game over
 font = pygame.font.Font(None, 36)
