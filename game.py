@@ -26,6 +26,7 @@ def game_loop():
     clock = pygame.time.Clock()
     score = 0
     high_score = 0
+    lives = 3
     game_over = False
     platform_count = INITIAL_PLATFORM_COUNT  # Start with more platforms
     camera_movement = 0  # For upward camera movement
@@ -53,12 +54,15 @@ def game_loop():
             player_group.update()
             platforms.update(camera_movement)
 
-            # Rising lava
-            lava_y -= LAVA_SPEED + camera_movement  # Lava rises along with camera movement
+            # lava
             pygame.draw.rect(SCREEN, RED, (0, lava_y, SCREEN_WIDTH, SCREEN_HEIGHT))  # Use SCREEN
-
+            
             # Check if the player falls into the lava
             if player.rect.top > lava_y:
+                lives -= 1
+
+            # Game Over
+            if lives < 0:
                 game_over = True
 
             # Check for collision between player and platforms
@@ -86,7 +90,7 @@ def game_loop():
             player_group.draw(SCREEN)
             platforms.draw(SCREEN)
 
-            # Display score and high score
+            # Display score, high score, lives
             score_text = font.render(f"Score: {score}", True, WHITE)
             SCREEN.blit(score_text, (10, 10))  # Use SCREEN
             
@@ -94,12 +98,17 @@ def game_loop():
             high_score_text = font.render(f"High Score: {high_score}", True, WHITE)
             SCREEN.blit(high_score_text, (10, 40))  # Use SCREEN
 
+            lives_text = font.render(f"Lives: {lives}", True, WHITE)
+            SCREEN.blit(lives_text, (10, 50))  # Use SCREEN
+
+
         else:
             # Game Over screen with Retry option
             game_over_text = font.render("Game Over", True, RED)
             final_score_text = font.render(f"Final Score: {score}", True, WHITE)
             high_score_text = font.render(f"High Score: {high_score}", True, WHITE)
             retry_text = font.render("Press SPACE to Retry", True, WHITE)
+            BackMenu = front.render("Press B to go back to the main menu", True, WHITE)
 
             SCREEN.blit(game_over_text, (SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2 - 50))
             SCREEN.blit(final_score_text, (SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2))
@@ -266,7 +275,7 @@ def main_menu():
 
         MENU_MOUSE_POS = pygame.mouse.get_pos()
 
-        MENU_TEXT = get_font(100).render("MAIN MENU", True, "#b68f40")
+        MENU_TEXT = get_font(100).render("LAVA NINJA", True, "#F7342B")
         MENU_RECT = MENU_TEXT.get_rect(center=(640, 100))
 
         PLAY_BUTTON = Button(image=pygame.image.load("Play_Rect.png"), pos=(640, 250), 
